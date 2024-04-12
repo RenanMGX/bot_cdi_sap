@@ -6,7 +6,7 @@ from random import randint
 from getpass import getuser
 
 class Credential:
-    def __init__(self, name:str, path:str=f"C:/Users/{getuser()}/.patrimar_rpa/credenciais") -> None:
+    def __init__(self, name:str, path:str=f"C:/Users/{getuser()}/.patrimar_rpa/credenciais/") -> None:
         if not isinstance(path, str):
             raise TypeError("apenas strings")
         if not isinstance(name, str):
@@ -14,13 +14,19 @@ class Credential:
         if not name.endswith('.json'):
             name += '.json'
         
+        
+        
         temp_path:str
         if "\\" in path:
+            if not path.endswith("\\"):
+                path += "\\"
             temp_path = "\\".join(path.split("\\")[0:-1]) + "\\"
             if not os.path.exists(temp_path):
                 os.makedirs(temp_path)
         
         if "/" in path:
+            if not path.endswith("/"):
+                path += "/"
             temp_path = "/".join(path.split("/")[0:-1]) + "/"
             if not os.path.exists(temp_path):
                 os.makedirs(temp_path)
