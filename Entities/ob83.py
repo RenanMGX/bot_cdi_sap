@@ -1,5 +1,4 @@
 from sap import SAPManipulation
-from credencial import Credential
 from indice import IndiceBacen
 from datetime import datetime
 from copy import deepcopy
@@ -76,17 +75,17 @@ class OB83(SAPManipulation, IndiceBacen):
         return list_date
 
 if __name__ == "__main__":
+    pass
+    # string_data:str = "27/03/2024"
+    # data_temp:datetime = datetime.strptime(string_data, '%d/%m/%Y')
     
-    string_data:str = "27/03/2024"
-    data_temp:datetime = datetime.strptime(string_data, '%d/%m/%Y')
+    # crd:dict = Credential("SAP_QAS").load()
     
-    crd:dict = Credential("SAP_QAS").load()
+    # bot:OB83 = OB83(user=crd['user'], password=crd['password'], ambiente="S4Q", date=datetime.now())
     
-    bot:OB83 = OB83(user=crd['user'], password=crd['password'], ambiente="S4Q", date=datetime.now())
+    # print(bot.execute(fechar_sap_no_final=True))
     
-    print(bot.execute(fechar_sap_no_final=True))
-    
-    #bot.fechar_sap()
-    # bot.conectar_sap()
+    # #bot.fechar_sap()
+    # # bot.conectar_sap()
     
     

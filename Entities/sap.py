@@ -1,11 +1,8 @@
 from getpass import getuser
 import win32com.client
-from indice import IndiceBacen
-from datetime import datetime
 import psutil
 import subprocess
 from time import sleep
-from credencial import Credential
 
 class SAPManipulation():
     def __init__(self, *, user:str, password:str, ambiente:str) -> None:
@@ -88,11 +85,12 @@ class SAPManipulation():
     
     
 if __name__ == "__main__":
-    crd = Credential("SAP_QAS").load()
+    pass
+    # crd = Credential("SAP_QAS").load()
     
-    bot = SAPManipulation(user=crd['user'], password=crd['password'], ambiente="S4Q")
-    #bot.conectar_sap()
-    bot._teste()
+    # bot = SAPManipulation(user=crd['user'], password=crd['password'], ambiente="S4Q")
+    # #bot.conectar_sap()
+    # bot._teste()
     
     #import pdb;pdb.set_trace()
     #bot.fechar_sap()
