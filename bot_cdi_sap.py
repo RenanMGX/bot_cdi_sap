@@ -11,7 +11,7 @@ if __name__ == "__main__":
     
         date = datetime.now()
     
-        bot:OB83 = OB83(user=crd['user'], password=crd['password'], ambiente="S4Q", date=date)
+        bot:OB83 = OB83(user=crd['user'], password=crd['password'], ambiente=crd['ambiente'], date=date)
         print(bot.execute(fechar_sap_no_final=True))
         
         Logs().register(status='Concluido', description="Automação FInalizada com Sucesso!")
