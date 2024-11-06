@@ -3,6 +3,7 @@ import win32com.client
 import psutil
 import subprocess
 from time import sleep
+from functools import wraps
 
 class SAPManipulation():
     def __init__(self, *, user:str, password:str, ambiente:str) -> None:
