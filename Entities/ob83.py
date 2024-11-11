@@ -19,7 +19,7 @@ class OB83(SAPManipulation, IndiceBacen):
     def date(self) -> datetime:
         return self.__date
     
-    @SAPManipulation.usar_sap
+    @SAPManipulation.start_SAP
     def execute(self, fechar_sap_no_final=False) -> None:
         self.session.findById("wnd[0]/tbar[0]/okcd").text = "/n ob83"
         self.session.findById("wnd[0]").sendVKey(0)
