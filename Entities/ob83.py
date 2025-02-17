@@ -8,7 +8,7 @@ from time import sleep
 
 class OB83(SAPManipulation, IndiceBacen):
     def __init__(self, *, user: str, password: str, ambiente: str, date:datetime, cod_indice:int=4389) -> None:
-        SAPManipulation.__init__(self, user=user, password=password, ambiente=ambiente)
+        SAPManipulation.__init__(self, user=user, password=password, ambiente=ambiente, new_conection=True)
         IndiceBacen.__init__(self, cod_indice=cod_indice)
         
         if not isinstance(date, datetime):
