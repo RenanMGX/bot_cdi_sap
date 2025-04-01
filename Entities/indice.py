@@ -2,10 +2,13 @@ import os
 import requests
 from datetime import datetime
 from copy import deepcopy
+from dateutil.relativedelta import relativedelta
 
 class IndiceBacen:
-    def __init__(self, *, cod_indice:str|int) -> None:
-        self.__indices:list = requests.get(f"https://api.bcb.gov.br/dados/serie/bcdata.sgs.{cod_indice}/dados?formato=json").json()
+    def __init__(self, *, cod_indice:str|int, date: datetime=datetime.now(), months:int=6) -> None:
+        dataInicial = (date - relativedelta(months=months)).strftime('%d/%m/%Y')
+        dataFinal = date.strftime('%d/%m/%Y')
+        self.__indices:list = requests.get(f"https://api.bcb.gov.br/dados/serie/bcdata.sgs.{cod_indice}/dados?formato=json&dataInicial={dataInicial}&dataFinal={dataFinal}").json()
         
     @property
     def indices(self):
@@ -24,8 +27,10 @@ class IndiceBacen:
             raise ValueError(f"não existe indice para esta data {dateSTR}")
 
 if __name__ == "__main__":
-    date = datetime.strptime("09/04/2024", "%d/%m/%Y")
+    date = datetime.strptime("12/03/2025", "%d/%m/%Y")
     bot = IndiceBacen(cod_indice=4389)
     
-    print(bot.indices)
+    
+    #print(bot.indices)
+    print(bot.indice_p_data(date))
     
