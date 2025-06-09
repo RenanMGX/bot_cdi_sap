@@ -1,19 +1,22 @@
-from sap import SAPManipulation
+from patrimar_dependencies.sap import SAPManipulation
 from indice import IndiceBacen
 from datetime import datetime
 from copy import deepcopy
 from dateutil.relativedelta import relativedelta
 from typing import List
 from time import sleep
+from botcity.maestro import * #type: ignore
 
 class OB83(SAPManipulation, IndiceBacen):
-    def __init__(self, *, user: str, password: str, ambiente: str, date:datetime, cod_indice:int=4389) -> None:
+    def __init__(self, *, maestro:BotMaestroSDK, user: str, password: str, ambiente: str, date:datetime, cod_indice:int=4389) -> None:
         SAPManipulation.__init__(self, user=user, password=password, ambiente=ambiente, new_conection=True)
-        IndiceBacen.__init__(self, cod_indice=cod_indice)
+        IndiceBacen.__init__(self, maestro=maestro, cod_indice=cod_indice)
         
         if not isinstance(date, datetime):
             raise TypeError(f"{date=} não é um 'datetime'")
         self.__date:datetime = date
+        
+        self.maestro:BotMaestroSDK = maestro
     
     @property
     def date(self) -> datetime:
@@ -55,6 +58,14 @@ class OB83(SAPManipulation, IndiceBacen):
             self.session.findById(f"wnd[0]/usr/tblSAPLFREFINTVTCTRL_V_T056P/txtV_T056P-DATAB[2,{contador}]").text = data.strftime('%d.%m.%Y')
             self.session.findById(f"wnd[0]/usr/tblSAPLFREFINTVTCTRL_V_T056P/txtV_T056P-ZSOLL[3,{contador}]").text = str(novo_indice_lancar['valor']).replace(".",",")
             
+            self.maestro.new_log_entry(
+                activity_label="Registrar_CDI_no_SAP",
+                values={
+                    "infor": f"O indice CDI {novo_indice_lancar} foi registrado com sucesso no SAP",
+                }
+            )         
+            
+            
             contador += 1
             
         self.session.findById("wnd[0]/tbar[0]/btn[11]").press()
@@ -65,6 +76,8 @@ class OB83(SAPManipulation, IndiceBacen):
                 
         sleep(5)
         
+        
+               
     def separar_indices(self, last_date:datetime) -> List[datetime]:
         last_date_temp:datetime = deepcopy(last_date)
         list_date:list = []
